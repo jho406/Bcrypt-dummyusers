@@ -2,26 +2,24 @@ require 'bcrypt'
 
 
 class User < ActiveRecord::Base
+  include BCrypt
 
-    include BCrypt
+  validates :password, 
+              :confirmation => true, 
+              :length => { :minimum => 6 }
 
-  validate :email, # unique
-           :name # unique
+  validates :email, 
+              :uniqueness => true, 
+              :presence => true,
+              :format=> { :with => /\A[^@]+@([^@\.]+\.)+[^@\.]+\z/}
+  
+  validates :name, :presence => true
+  
 
   def self.authenticate(email, secret)
     user = find_by_email(email)
-    password_hash = user.password_hash
-    # p hash
-    salt = user.salt
-     # p salt
-    compare_string = BCrypt::Engine.hash_secret(secret, salt)
-    # p compare_string   
-    if compare_string == password_hash
-      return user
-    else  
-      return nil
-    end  
-  
+    return nil unless user
+    user.password == secret ? user : nil
   end
 
   def password
@@ -30,11 +28,8 @@ class User < ActiveRecord::Base
 
   def password=(secret)
     @password = Password.create(secret)
-    self.salt = @password.salt
-    self.password_hash = @password.to_s
+    self.password_hash = @password
   end
-
-
 end
 
 
