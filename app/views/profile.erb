@@ -1,0 +1,31 @@
+<div class="container users">
+  <nav>
+    <form action="/users/<%= current_user.id%>/links/new" metrod="post">
+      link:
+      <input type="text" name="url">
+      <button type="Submit" >Shortify</button>
+    </form>
+      <%unless current_user.nil?%>
+        <a href="<%=url("/logout")%>">logout</a>
+      <% end %>
+  </nav>
+  
+  <div>
+  </div>
+
+  <h1>Hi. <%= @user.name %> </h1>
+  <p>here are all your links:</p>
+  <div class="links">
+<table>
+    <tr><th>Real Link</th><th>Short URL</th><th>click count</th></tr>
+  <% @links.each do |link|%>
+    <tr>      
+      <td><a href="<%=link.url%>"><%=link.url%></a></td>
+      <td><a href="<%=url(link.short_url)%>"><%=url(link.short_url)%></td>
+      <td><%=link.click_count%></td>
+    </tr>
+  <%end%>
+</table>
+  </div>
+
+</div>

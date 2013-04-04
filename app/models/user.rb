@@ -4,6 +4,8 @@ require 'bcrypt'
 class User < ActiveRecord::Base
   include BCrypt
 
+  has_many :links
+
   validates :password, 
               :confirmation => true, 
               :length => { :minimum => 6 }

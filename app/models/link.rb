@@ -2,9 +2,13 @@ require 'resolv'
 
 class Link < ActiveRecord::Base
   # Remember to create a migration!
+  belongs_to :user
+
   validate :url, :presence => true
   validate :dns_ok
+  
   after_create :shortify
+
   
   def shortify
     self.short_url = self.id.to_s(36)

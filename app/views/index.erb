@@ -1,39 +1,38 @@
-<div class="container">
-  <h1>Dummy Users</h1>
-
+<div class="container users">
+  <h1>Shortify Links</h1>
+  <nav>
+      <%unless current_user.nil?%>
+        <a href="<%=url("/logout")%>">logout</a>
+      <% end %>
+  </nav>
   
-<br>
-<% if @user %>
-Welcome <%= @user.name %><br><a href="/logout">logout</a>
-<% end %>
-<br><br>
 
-
-<b>Login:</b><br><br>
-<form action="/login" method="post">
-  <label for="email">Email:</label><br>
-  <input type="text" name="email"><br>
-  <label for="password">Password:</label><br>
-  <input type="password" name="password"><br>
-  <input type="submit" value="Submit">
-</form>  
-<br><br><br>
-
-<b>Signup:</b><br><br>
 <form action="/signup" method="post">
-  <label for="name">User name:</label><br>
-  <input type="text" name="name"><br>
-  <label for="email">Email:</label><br>
-  <input type="text" name="email"><br>
-  <label for="password">Password:</label><br>
-  <input type="password" name="password"><br>
-  <label for="password2">Repeat password:</label><br>
-  <input type="password" name="password2"><br>
-  <input type="submit" value="Submit">
-</form>  
+  <label>User name:</label><br>
+  <input type="text" name="user[name]"><br>
+  <label>Email:</label><br>
+  <input type="text" name="user[email]"><br>
+  <label>Password:</label><br>
+  <input type="password" name="user[password]"><br>
+  <label>Repeat password:</label><br>
+  <input type="password" name="user[password_confirmation]"><br>
+  <input type="submit" value="Sign up!">
+  <a href="<%=url("/login")%>">or login</a>
+</form>
 
-
-
+<div class="links">
+  <h3>top 5 links</h3>
+<table>
+  <% @links.each do |link|%>
+    <tr>
+      <td><a href="<%=link.url%>"><%=link.url%></a></td>
+      <td><a href="<%=url(link.short_url)%>"><%=url(link.short_url)%></td>
+      <td><%=link.click_count%></td>
+    </tr>
+  <%end%>
+</table>
+</div>
 
 
 </div>
+
