@@ -2,7 +2,12 @@
   <h1>Dummy Users</h1>
 
   
-<br><br><br>
+<br>
+<% if @user %>
+Welcome <%= @user.name %><br><a href="/logout">logout</a>
+<% end %>
+<br><br>
+
 
 <b>Login:</b><br><br>
 <form action="/login" method="post">
